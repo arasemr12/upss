@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3527803445641545" crossorigin="anonymous"></script>
+    <div id="comment" class="opacity-0 invisible duration-300 fixed z-50 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center">
+        <div class="w-full lg:w-2/3 h-full lg:h-2/3 bg-gray-800 opacity-80 flex flex-col items-center justify-center rounded-lg">
+            <h1 class="text-2xl font-bold">We working for comments.</h1>
+            <span class="text-blue-600 underline cursor-pointer" onclick="comment()">Close.</span>
+        </div>
+    </div>
+    <%-include('../partials/navbar')%>
+    <main>
+        <%-body%>
+    </main>
+    <script src="/public/nav.js"></script>
+    <script src="/public/main.js"></script>
+</body>
+</html>
