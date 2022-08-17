@@ -2,6 +2,7 @@ const express = require('express');
 const {notrequirelogin,requirelogin} = require('../util/routeroptions');
 const user = require('../models/user');
 const post = require('../models/post');
+const nodefetch = require('node-fetch');
 
 const router = express.Router();
 
@@ -25,15 +26,27 @@ router.get('/register',notrequirelogin,(req,res) => {
 });
 
 router.post('/register',notrequirelogin,async(req,res) => {
-    let {email,username,password} = req.body;
+    let cap = await nodefetch(`https://hcaptcha.com/siteverify?response=${req.body["h-captcha-response"]}&secret=${process.env.HCAPTCHA_SECRET}`,{
+        method:"POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `secret=${process.env.HCAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}`,
+    });
+    cap = await cap.json();
+    if(cap.success){
+        let {email,username,password} = req.body;
 
-    let my = await user.create({
-        email,
-        username,
-        password
-    })
-    //res.render('login',{message:{success:true,body:"You have successfully registered"}});
-    res.render('redirect',{message:{success:true,body:"You have successfully registered"},url:"/login",time:3000});
+        let my = await user.create({
+            email,
+            username,
+            password
+        })
+
+        return res.render('redirect',{message:{success:true,body:"You have successfully registered"},url:"/login",time:3000});
+    }else{
+        return res.render('register',{message:{success:false,body:"You have failed to register. - Captcha"},url:'/register',time:3000});
+    }
 });
 
 router.get('/login',notrequirelogin,(req,res) => {

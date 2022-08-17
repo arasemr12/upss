@@ -9,6 +9,7 @@
     "tailwindcss": "npx tailwindcss -i ./tailwind.css -o ./public/style.css --minify"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
@@ -18,7 +19,8 @@
     "level": "7.0.1",
     "level-session-store": "^2.2.0",
     "mongoose": "^6.5.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "2"
   },
   "devDependencies": {
     "nodemon": "^2.0.19",
