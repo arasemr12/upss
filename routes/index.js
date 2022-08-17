@@ -45,7 +45,8 @@ router.post('/register',notrequirelogin,async(req,res) => {
 
         return res.render('redirect',{message:{success:true,body:"You have successfully registered"},url:"/login",time:3000});
     }else{
-        return res.render('register',{message:{success:false,body:"You have failed to register. - Captcha"},url:'/register',time:3000});
+        console.log(cap);
+        return res.render('redirect',{message:{success:false,body:"You have failed to register. - Captcha"},url:'/register',time:3000});
     }
 });
 
