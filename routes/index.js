@@ -26,27 +26,31 @@ router.get('/register',notrequirelogin,(req,res) => {
 });
 
 router.post('/register',notrequirelogin,async(req,res) => {
-    let cap = await nodefetch(`https://hcaptcha.com/siteverify?response=${req.body["h-captcha-response"]}&secret=${process.env.HCAPTCHA_SECRET}`,{
-        method:"POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `secret=${process.env.HCAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}`,
-    });
-    cap = await cap.json();
-    if(cap.success){
-        let {email,username,password} = req.body;
-
-        let my = await user.create({
-            email,
-            username,
-            password
-        })
-
-        return res.render('redirect',{message:{success:true,body:"You have successfully registered"},url:"/login",time:3000});
-    }else{
-        console.log(cap);
-        return res.render('redirect',{message:{success:false,body:"You have failed to register. - Captcha"},url:'/register',time:3000});
+    try {
+        let cap = await nodefetch(`https://hcaptcha.com/siteverify?response=${req.body["h-captcha-response"]}&secret=${process.env.HCAPTCHA_SECRET}`,{
+            method:"POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `secret=${process.env.HCAPTCHA_SECRET}&response=${req.body['g-recaptcha-response']}`,
+        });
+        cap = await cap.json();
+        if(cap.success){
+            let {email,username,password} = req.body;
+    
+            let my = await user.create({
+                email,
+                username,
+                password
+            })
+    
+            return res.render('redirect',{message:{success:true,body:"You have successfully registered"},url:"/login",time:3000});
+        }else{
+            console.log(cap);
+            return res.render('redirect',{message:{success:false,body:"You have failed to register. - Captcha"},url:'/register',time:3000});
+        }
+    } catch (error) {
+        return res.render('redirect',{message:{success:false,body:"You have failed to register. - Try other email"},url:'/register',time:3000});
     }
 });
 
