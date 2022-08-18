@@ -23,7 +23,7 @@ router.get('/:id',async(req,res) => {
         }
     });
 
-    res.render('user',{user:myuser});
+    res.render('user',{myuser});
 });
 
 

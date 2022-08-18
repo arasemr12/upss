@@ -70,6 +70,7 @@ router.post('/login',notrequirelogin,async(req,res) => {
 });
 
 router.get('/logout',requirelogin,(req,res) => {
+    req.session.userid = null;
     req.session.destroy();
     res.render('redirect',{message:{success:true,body:"You have successfully logged out!"},url:"/login",time:3000});
 });

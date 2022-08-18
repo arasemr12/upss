@@ -1,17 +1,17 @@
 <div class="w-full flex flex-col items-center">
-    <span><%=user.email%></span>
-    <h1 class="text-2xl font-bold">@<%=user.username%></h1>
+    <span><%=myuser.email%></span>
+    <h1 class="text-2xl font-bold">@<%=myuser.username%></h1>
     <div class="w-full">
         <span>User posts: </span>
         <div class="flex flex-col items-center w-full gap-12">
-            <%user.posts.forEach((post) => {%>
+            <%myuser.posts.forEach((post) => {%>
                 <div class="w-full border-2 border-slate-800 rounded-lg flex flex-col py-6 px-6 gap-4">
                     <div class="w-full flex flex-row items-center gap-x-4">
                         <!--<img src="https://cdn.discordapp.com/avatars/441221465019514881/54b62ae823642102bb7f9951b6540641.gif" class="rounded-full" width="32" alt="">-->
                         <i class="fa-solid fa-user fa-2x bg-gray-700 py-4 px-4 rounded-full"></i>
-                        <a href="/users/<%=user._id%>" class="flex flex-col">
-                            <span class="text-xs opacity-40"><%=user.email%></span>
-                            <span class="text-xl font-bold">@<%=user.username%></span>
+                        <a href="/users/<%=myuser._id%>" class="flex flex-col">
+                            <span class="text-xs opacity-40"><%=myuser.email%></span>
+                            <span class="text-xl font-bold">@<%=myuser.username%></span>
                         </a>
                     </div>
                     <div class="flex flex-col gap-5">
