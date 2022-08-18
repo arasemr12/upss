@@ -24,6 +24,7 @@ app.use(session({
 }));
 
 app.use(async(req,res,next) => {
+    res.locals.link = req.url;
     if(req.session && req.session.userid){
         let my = await user.findOne({_id:req.session.userid});
 
