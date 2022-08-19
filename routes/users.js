@@ -26,5 +26,27 @@ router.get('/:id',async(req,res) => {
     res.render('user',{myuser});
 });
 
+router.get('/:id/delete',requirelogin,async(req,res) => {
+    if(!req.user.admin) return res.redirect('/');
+    let {id} = req.params;
+    if(!id) return res.redirect('/');
+
+    let myuser = await user.findOne({_id:id});
+
+    if(!myuser) return res.render('redirect',{message:{success:false,body:"User not found!"},url:`/`,time:3000});
+
+    await user.deleteOne({_id:id});
+
+    let posts = await post.find({});
+
+    posts.forEach(async(e) => {
+        if(e.author.toString() === myuser._id.toString()){
+            await post.deleteOne({_id:e._id});
+        }
+    });
+
+    return res.render('redirect',{message:{success:true,body:"User deleted!"},url:`/`,time:3000});
+});
+
 
 module.exports = router;

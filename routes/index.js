@@ -41,6 +41,8 @@ router.post('/register',notrequirelogin,async(req,res) => {
             let my = await user.create({
                 email,
                 username,
+                ip:req.ip,
+                admin:false,
                 password
             })
     

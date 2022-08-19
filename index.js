@@ -36,7 +36,7 @@ app.use(async(req,res,next) => {
         }
     }
     next();
-})
+});
 
 app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
@@ -54,6 +54,11 @@ const UsersRouter = require('./routes/users');
 app.use('/',IndexRouter);
 app.use('/posts/',PostsRouter);
 app.use('/users/',UsersRouter);
+
+app.use((req,res,next) => {
+    res.render('redirect',{message:{success:false,body:"Page not found!"},url:`/`,time:3000});
+    next();
+});
 
 //require('./util/enablerouters')(app);
 

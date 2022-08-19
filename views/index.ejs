@@ -33,13 +33,18 @@
         </div>
         <%posts.forEach((post) => {%>
             <div class="w-full border-2 border-slate-800 rounded-lg flex flex-col py-6 px-6 gap-4">
-                <div class="w-full flex flex-row items-center gap-x-4">
+                <div class="w-full flex flex-col lg:flex-row items-center gap-4 justify-between">
                     <!--<img src="https://cdn.discordapp.com/avatars/441221465019514881/54b62ae823642102bb7f9951b6540641.gif" class="rounded-full" width="32" alt="">-->
-                    <i class="fa-solid fa-user fa-2x bg-gray-700 py-4 px-4 rounded-full"></i>
-                    <a href="/users/<%=post.author._id%>" class="flex flex-col">
-                        <span class="text-xs opacity-40"><%=post.author.email%></span>
-                        <span class="text-xl font-bold">@<%=post.author.username%></span>
-                    </a>
+                    <div class="flex flex-row items-center gap-x-4">
+                        <i class="fa-solid fa-user fa-2x bg-gray-700 py-4 px-4 rounded-full"></i>
+                        <a href="/users/<%=post.author._id%>" class="flex flex-col">
+                            <span class="text-xs opacity-40"><%=post.author.email%></span>
+                            <span class="text-xl font-bold">@<%=post.author.username%></span>
+                        </a>
+                    </div>
+                    <div>
+                        <span class="text-gray-500"><%=post.createdAt%></span>
+                    </div>
                 </div>
                 <div class="flex flex-col gap-5">
                     <span class="whitespace-pre-wrap"><%=String(post.content).slice(0,100)%></span>

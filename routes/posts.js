@@ -67,7 +67,7 @@ router.get('/:id/delete',requirelogin,async(req,res) => {
 
     if(!mypost) return res.redirect(`/`);
 
-    if(mypost.author.toString() != req.user._id.toString()) return res.redirect(`/posts/${id}`);
+    if(mypost.author.toString() != req.user._id.toString() && !req.user.admin) return res.redirect(`/posts/${id}`);
 
     await mypost.remove();
 

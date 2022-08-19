@@ -8,6 +8,9 @@
         <%if(locals.user){%>
             <a class="navlink green-btn" href="/users/<%=user._id%>">Profile</a>
             <a class="navlink red-btn" href="/logout">Logout</a>
+            <%if(user.admin){%>
+                <a class="navlink blue-btn uppercase" href="/">Admin</a>
+            <%}%>
         <%}else{%>
             <a class="navlink green-btn" href="/login">Login</a>
             <a class="navlink blue-btn" href="/register">Register</a>

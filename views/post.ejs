@@ -13,7 +13,7 @@
             <i id="like-<%=post._id%>" class="fa-solid fa-heart cursor-pointer <%=locals.user ? post.likes.find(like => user._id.toString() == like.toString()) ? 'text-red-600' : '':''%>" onclick="like('<%=post._id%>')"></i>
             <span id="likes-<%=post._id%>"><%=post.likes.length%></span>
         </div>
-        <%if(locals.user && user._id.toString() == post.author._id.toString()){%>
+        <%if(locals.user && user._id.toString() == post.author._id.toString() || locals.user && user.admin){%>
             <a class="red-btn" href="/posts/<%=post._id%>/delete">Delete this post.</a>
         <%}%>
     </div>

@@ -16,6 +16,17 @@ const userSchema = new mongoose.Schema({
         required:true,
         unique:false
     },
+    ip:{
+        type:String,
+        required:true,
+        unique:false
+    },
+    admin:{
+        type:Boolean,
+        default:false,
+        required:true,
+        unique:false
+    },
     createdAt:{
         type:Date,
         default:Date.now,
