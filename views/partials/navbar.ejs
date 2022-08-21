@@ -5,6 +5,7 @@
     </div>
     <div id="nav" class="flex flex-col lg:flex-row items-center gap-5 w-full lg:w-auto">
         <a class="navlink" href="/">Home</a>
+        <a class="navlink" href="/all">Posts</a>
         <%if(locals.user){%>
             <a class="navlink green-btn" href="/users/<%=user._id%>">Profile</a>
             <a class="navlink red-btn" href="/logout">Logout</a>

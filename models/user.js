@@ -36,7 +36,11 @@ const userSchema = new mongoose.Schema({
         type:Date,
         default:Date.now,
         required:true
-    }
+    },
+    fallowers:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }],
 },{versionKey:false});
 
 const User = mongoose.model('User',userSchema);

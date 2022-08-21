@@ -1,6 +1,7 @@
 const express = require('express');
 const {notrequirelogin,requirelogin} = require('../util/routeroptions');
 const post = require('../models/post');
+const comment = require('../models/comment');
 
 const router = express.Router();
 
@@ -28,9 +29,37 @@ router.get('/:id',async(req,res) => {
 
     let mypost = await post.findOne({_id:id}).populate("author");
 
+    let comments = await comment.find({post:id}).populate("author").sort("-createdAt");
+
+    mypost.comments = comments;
+
     if(!mypost) return res.render('redirect',{message:{success:false,body:"Post not found!"},url:`/`,time:3000});
 
     res.render('post',{post:mypost});
+
+    //res.send(mypost);
+});
+
+router.post('/:id/comment',requirelogin,async(req,res) => {
+    let {id} = req.params;
+    if(!id) return res.redirect('/');
+
+    let mypost = await post.findOne({_id:id}).populate("author");
+
+    if(!mypost) return res.render('redirect',{message:{success:false,body:"Post not found!"},url:`/`,time:3000});
+
+    let {content} = req.body;
+    if(!content) return res.json({success:false,message:'Missing fields.'});
+
+    let mycomment = await comment.create({
+        content:content,
+        post:mypost._id,
+        author:req.session.userid
+    });
+
+    return res.json({success:true,message:'Comment created.',comment:mycomment});
+
+    //res.render('post',{post:mypost});
 
     //res.send(mypost);
 });
@@ -42,8 +71,6 @@ router.get('/:id/like',requirelogin,async(req,res) => {
     let mypost = await post.findOne({_id:id});
 
     if(!mypost) return res.json({success:false,message:"Post not found!"});
-
-    console.log(mypost.likes)
 
     let find = mypost.likes.find(like => like.toString() == req.user._id.toString());
 

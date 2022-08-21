@@ -7,8 +7,9 @@
             <span class="text-xl font-bold">@<%=post.author.username%></span>
         </a>
     </div>
-    <div class="flex flex-col gap-5">
-        <span class="whitespace-pre-wrap"><%=post.content%></span>
+    <div class="flex flex-col gap-5 w-full">
+        <!--<p class="whitespace-pre-wrap w-full"><%=post.content%></p>-->
+        <textarea class="bg-transparent focus:ring-0 focus:bg-transparent resize-none" cols="30" rows="10" readonly><%=post.content%></textarea>
         <div>
             <i id="like-<%=post._id%>" class="fa-solid fa-heart cursor-pointer <%=locals.user ? post.likes.find(like => user._id.toString() == like.toString()) ? 'text-red-600' : '':''%>" onclick="like('<%=post._id%>')"></i>
             <span id="likes-<%=post._id%>"><%=post.likes.length%></span>
@@ -18,6 +19,55 @@
         <%}%>
     </div>
 </div>
-<div>
-    Comments:
+<div class="w-full flex flex-col gap-5">
+    <div id="comment" class="w-full border-2 border-slate-700 bg-slate-800 rounded-lg flex flex-row items-center">
+        <textarea id="con" rows="1" class="rounded-lg focus:ring-0 w-full" placeholder="I love this post!" type="text"></textarea>
+        <i onclick="makecomment('<%=post._id%>')" class="fa-solid fa-paper-plane mr-6 cursor-pointer"></i>
+    </div>
+    <span class="text-2xl font-bold uppercase text-center">Comments</span>
+    <%post.comments.forEach((e) => {%>
+        <div class="w-full border-2 border-slate-800 rounded-lg flex flex-col py-6 px-6 gap-4">
+            <div class="w-full flex flex-col lg:flex-row items-center gap-4 justify-between">
+                <!--<img src="https://cdn.discordapp.com/avatars/441221465019514881/54b62ae823642102bb7f9951b6540641.gif" class="rounded-full" width="32" alt="">-->
+                <div class="flex flex-row items-center gap-x-4">
+                    <i class="fa-solid fa-user fa-2x bg-gray-700 py-4 px-4 rounded-full"></i>
+                    <a href="/users/<%=post.author._id%>" class="flex flex-col">
+                        <span class="text-xs opacity-40"><%=e.author.email%></span>
+                        <span class="text-xl font-bold">@<%=e.author.username%></span>
+                    </a>
+                </div>
+                <div>
+                    <span class="text-gray-500"><%=e.createdAt%></span>
+                </div>
+            </div>
+            <div class="flex flex-col gap-5">
+                <span class="whitespace-pre-wrap"><%=e.content%></span>
+                <div class="flex flex-row items-center w-full justify-between">
+                    <div>
+                        <i id="comment-like-<%=post._id%>" class="fa-solid fa-heart cursor-pointer"></i>
+                        <span id="comment-likes-<%=post._id%>"><%=e.likes.length%></span>
+                    </div>
+                    <div>
+                        <button class="uppercase green-btn">Reply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%})%>
 </div>
+<script>
+    function makecomment(id){
+        let con = document.getElementById('con').value;
+        fetch("/posts/"+id+"/comment",{
+            method:'POST',
+            body:JSON.stringify({
+                content:con
+            }),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }).then(() => {
+            window.location.reload();
+        })
+    }
+</script>

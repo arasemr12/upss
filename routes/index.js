@@ -7,6 +7,29 @@ const nodefetch = require('node-fetch');
 const router = express.Router();
 
 router.get('/',async(req,res) => {
+    if(!req.session.userid) return res.redirect('/all');
+    let {page} = req.query;
+    if(!page) page = 1;
+    if(page <= 0) page = 1;
+
+    let users = await user.find({});
+    let fallowings = [];
+
+    users.forEach((e) => {
+        let find = e.fallowers.find((e) => e.toString() == req.session.userid);
+        if(find) fallowings.push(e._id);
+    });
+
+    let posts = await post.find({author: {$in:fallowings}})
+        .populate("author")
+        .sort("-createdAt")
+        .skip((page-1)*10)
+        .limit(10);
+
+    res.render('index',{posts,page});
+});
+
+router.get('/all',async(req,res) => {
     let {page} = req.query;
     if(!page) page = 1;
     if(page <= 0) page = 1;
@@ -17,7 +40,7 @@ router.get('/',async(req,res) => {
      .limit(10)
     post.count().exec((err,count) => {
         if(err) throw err;
-        res.render('index',{posts,count,page});
+        res.render('all',{posts,count,page});
     });
 });
 
@@ -48,7 +71,6 @@ router.post('/register',notrequirelogin,async(req,res) => {
     
             return res.render('redirect',{message:{success:true,body:"You have successfully registered"},url:"/login",time:3000});
         }else{
-            console.log(cap);
             return res.render('redirect',{message:{success:false,body:"You have failed to register. - Captcha"},url:'/register',time:3000});
         }
     } catch (error) {

@@ -13,7 +13,8 @@ function like(postid){
         })
 }
 
-function comment(){
-    commentel.classList.toggle('opacity-0');
-    commentel.classList.toggle('invisible');
+function comment(id){
+    /*commentel.classList.toggle('opacity-0');
+    commentel.classList.toggle('invisible');*/
+    window.location.href = `/posts/${id}#comment`;
 }

@@ -48,5 +48,27 @@ router.get('/:id/delete',requirelogin,async(req,res) => {
     return res.render('redirect',{message:{success:true,body:"User deleted!"},url:`/`,time:3000});
 });
 
+router.get('/:id/fallow',requirelogin,async(req,res) => {
+    let {id} = req.params;
+    if(!id) return res.redirect('/');
+
+    let myuser = await user.findOne({_id:id});
+
+    if(!myuser) return res.render('redirect',{message:{success:false,body:"User not found!"},url:`/`,time:3000});
+
+    let find = myuser.fallowers.find((e) => e.toString() === req.session.userid.toString());
+
+    if(find){
+        myuser.fallowers.remove(req.session.userid);
+    }else{
+        myuser.fallowers.push(req.session.userid);
+    }
+
+    await myuser.save();
+
+    return res.json({success:true,message:"Fallow changed."});
+
+});
+
 
 module.exports = router;
