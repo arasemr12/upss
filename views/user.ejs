@@ -12,7 +12,7 @@
     </div>
     <%let find = locals.user ? myuser.fallowers.find((e) => e.toString() == user._id.toString()) : null%>
     <%if(find){%>
-        <a onclick="fallow('<%=myuser._id%>')" class="red-btn cursor-pointer w-full">UnFallow this user.</a>
+        <a onclick="fallow('<%=myuser._id%>')" class="yellow-btn cursor-pointer w-full">UnFallow this user.</a>
     <%}else{%>
         <a onclick="fallow('<%=myuser._id%>')" class="green-btn cursor-pointer w-full">Fallow this user.</a>
     <%}%>
