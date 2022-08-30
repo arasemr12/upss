@@ -1,3 +1,6 @@
-.env
-node_modules
-level-session-store
+backend/.env
+backend/node_modules
+
+frontend/.env
+frontend/node_modules
+frontend/.nuxt
