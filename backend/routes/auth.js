@@ -44,6 +44,9 @@ router.get('/user',async(req,res) => {
     let requser = req.user;
     if(!requser) return res.json({success:false,message:"Not logged!"});
 
+    delete requser.ip;
+    delete requser.password;
+
     res.json({success:true,message:"Logged!",user:requser});
 });
 

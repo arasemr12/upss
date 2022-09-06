@@ -13,14 +13,10 @@ router.get('/',async(req,res) => {
 
     if(!myuser){
         let posts = await post.find({})
-            .populate("author")
+            .populate("author","-password -ip")
             .sort("-createdAt")
             .skip(10*(page-1))
             .limit(10)
-
-        posts.forEach((post) => {
-            post.author.password = null;
-        });
 
         await post.count().exec((err,count) => {
             res.json({success:true,message:"I find posts.",posts,count,page});
@@ -38,14 +34,10 @@ router.get('/',async(req,res) => {
     });
 
     let posts = await post.find({author: {$in:fallowings}})
-        .populate("author")
+        .populate("author","-password -ip")
         .sort("-createdAt")
         .skip((page-1)*10)
         .limit(10);
-
-    posts.forEach((post) => {
-        post.author.password = null;
-    });
 
     res.json({success:true,message:"I find posts.",posts,page});
 });

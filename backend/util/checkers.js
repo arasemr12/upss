@@ -17,8 +17,6 @@ const checkuser = async (req,res,next) => {
     
         if(!myuser) return next();
     
-        delete myuser.password;
-    
         req.user = myuser;
     
         return next();

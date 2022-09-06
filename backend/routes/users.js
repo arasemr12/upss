@@ -7,13 +7,7 @@ const router = express.Router();
 
 router.get('/all',async(req,res) => {
     try {    
-        let users = await user.find({});
-    
-
-        users.forEach((us) => {
-            delete us.password;
-            delete us.ip;
-        });
+        let users = await user.find({}).select("-password -ip");
     
         return res.json({success:true,message:"Finded user!",users});
     } catch (error) {
@@ -26,14 +20,12 @@ router.get('/:id',async(req,res) => {
         let {id} = req.params;
         if(!id) return res.json({success:false,message:"Required contents."});
     
-        let newuser = await user.findOne({_id:id});
+        let newuser = await user.findOne({_id:id}).select("-password -ip");
     
         if(!newuser) return res.json({success:false,message:"Not found user!"});
 
-        newuser.password = null;
-
         let posts = await post.find({author:newuser._id})
-            .populate("author")
+            .populate("author","-password -ip")
             .sort("-createdAt")
     
         return res.json({success:true,message:"Finded user!",user:newuser,posts});
