@@ -5,6 +5,22 @@ const post = require('../models/post');
 
 const router = express.Router();
 
+router.get('/all',async(req,res) => {
+    try {    
+        let users = await user.find({});
+    
+
+        users.forEach((us) => {
+            delete us.password;
+            delete us.ip;
+        });
+    
+        return res.json({success:true,message:"Finded user!",users});
+    } catch (error) {
+        return res.json({success:false,message:"Not found user!"});
+    }
+});
+
 router.get('/:id',async(req,res) => {
     try {
         let {id} = req.params;
