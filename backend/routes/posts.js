@@ -82,6 +82,28 @@ router.post('/create',async(req,res) => {
     return res.json({success:true,message:'Post created.',post:mypost});
 });
 
+router.post('/find',async(req,res) => {
+    let {keyword} = req.body;
+    if(!keyword) return res.json({success:false,message:"Missing keyword."});
+
+    keyword = keyword.toUpperCase();
+
+    let result = [];
+
+    let find = await post.find().populate("author","-password -ip");
+
+    find.forEach((f) => {
+        let ce = f.content.toUpperCase();
+        console.log(ce.indexOf(keyword));
+        if(ce.indexOf(keyword) <= -1) return;
+        result.push(f);
+    });
+
+    if(result.length <= 0) return res.json({success:false,message:"Not found!"});
+
+    res.json({success:true,message:"Finded!",result})
+});
+
 
 router.get('/:id/like',async(req,res) => {
     let myuser = req.user;

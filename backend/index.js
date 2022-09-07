@@ -7,6 +7,8 @@ const cors = require('cors');
 
 const app = express();
 
+app.set('trust proxy',true);
+
 app.use(cors({
     credentials:true,
     origin:process.env.ORIGIN_URL

@@ -1,5 +1,5 @@
 <template>
-    <nav class="w-full flex flex-col lg:flex-row items-center bg-gray-800 py-6 px-6 gap-10 mb-12">
+    <nav class="w-full flex flex-col lg:flex-row items-center bg-gray-800 py-6 px-6 gap-10 mb-12 z-40">
         <div class="flex flex-row items-center justify-between w-full lg:w-auto">
             <h1 class="text-2xl font-bold uppercase">upss</h1>
             <i @click="nav = !nav" class="fa-solid fa-bars fa-2x lg:hidden cursor-pointer"></i>
