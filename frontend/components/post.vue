@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="p-4 flex flex-col">
-            <span class="w-full focus:ring-0 bg-gray-900 resize-none p-0 whitespace-pre-wrap max-w-full break-words">{{post.content}}</span>
+            <span class="w-full focus:ring-0 bg-gray-900 resize-none p-0 whitespace-pre-wrap max-w-full break-words" :ref="`${post._id}-postcontent`">{{post.html}}</span>
             <nuxt-link :to="`/posts/${post._id}`" class="link">read more</nuxt-link>
         </div>
         <div class="w-full p-4 flex flex-row items-center justify-between">
@@ -31,7 +31,19 @@
 export default {
     name:'post',
     props:['post'],
-    created(){
+    async created(){
+        let content = this.post.content;
+        let match = content.match(/(^|\s)(#[a-z\d-]+)/ig);
+        if(!match) return;
+        match.forEach((m) => {
+            content = content.replaceAll(m,`<a class="link" href="/category/${m.trim().slice(1)}">#${m.trim().slice(1)}</a> `);
+            m = m.trim();
+            m = m.slice(1);
+        });
+        
+        await this.$refs;
+
+        this.$refs[`${this.post._id}-postcontent`].innerHTML = content;
     },
     methods:{
         async like(postid){

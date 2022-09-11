@@ -10,7 +10,7 @@
             </div>
             <div class="flex flex-col lg:flex-row items-center gap-5 w-full lg:w-auto" v-if="$auth.loggedIn">
                 <nuxt-link class="nav-link green-btn" to="/users/@me">@{{$auth.user.username}}</nuxt-link>
-                <nuxt-link class="nav-link green-btn" to="/messages/">Upss messages.</nuxt-link>
+                <nuxt-link class="nav-link green-btn" to="/messages/">messages</nuxt-link>
                 <nuxt-link class="nav-link red-btn" to="/logout">logout</nuxt-link>
             </div>
             <div class="flex flex-col lg:flex-row items-center gap-5 w-full lg:w-auto" v-else>

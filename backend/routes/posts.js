@@ -2,6 +2,7 @@ const express = require('express');
 const user = require('../models/user');
 const post = require('../models/post');
 const comment = require('../models/comment');
+const tag = require('../models/tag');
 
 const router = express.Router();
 
@@ -66,14 +67,36 @@ router.get('/all',async(req,res) => {
 
 router.post('/create',async(req,res) => {
     let {content} = req.body;
+
     let myuser = req.user;
 
     if(!content) return res.json({success:false,message:"Missing fields."});
 
     if(!myuser) return res.json({success:false,message:"You need login."});
 
+    let tags = [];
+
+    let match = content.match(/(^|\s)(#[a-z\d-]+)/ig);
+
+    if(match){
+        match.forEach((m) => {
+            m = m.trim();
+            m = m.slice(1);
+            tags.push(m);
+        });
+    }
+
+    let tagsid = [];
+
+    for (let b of tags) {
+        let f = await tag.findOne({name:b});
+        if(!f) f = await tag.create({name:b,author:myuser._id});
+        tagsid.push(f._id.toString());
+    }
+
     let mypost = await post.create({
         content:content,
+        tags:tagsid,
         author:myuser._id
     });
 
@@ -94,7 +117,6 @@ router.post('/find',async(req,res) => {
 
     find.forEach((f) => {
         let ce = f.content.toUpperCase();
-        console.log(ce.indexOf(keyword));
         if(ce.indexOf(keyword) <= -1) return;
         result.push(f);
     });

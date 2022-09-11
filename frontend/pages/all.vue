@@ -7,6 +7,9 @@
     <div class="w-full">
       <nuxt-link to="/search" class="green-btn uppercase flex flex-row items-center w-full justify-between">Search <i class="fa-solid fa-magnifying-glass"></i></nuxt-link>
     </div>
+    <div class="w-full">
+      <nuxt-link to="/category" class="green-btn uppercase flex flex-row items-center w-full justify-between">Categories <i class="fa-solid fa-hashtag"></i></nuxt-link>
+    </div>
     <div class="flex flex-col w-full items-center gap-4">
       <span>Page: {{page}}</span>
       <div class="w-full flex flex-row items-center justify-center gap-2">
