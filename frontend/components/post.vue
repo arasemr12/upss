@@ -34,12 +34,14 @@ export default {
     async created(){
         let content = this.post.content;
         let match = content.match(/(^|\s)(#[a-z\d-]+)/ig);
-        if(!match) return;
-        match.forEach((m) => {
-            content = content.replaceAll(m,`<a class="link" href="/category/${m.trim().slice(1)}">#${m.trim().slice(1)}</a> `);
-            m = m.trim();
-            m = m.slice(1);
-        });
+
+        if(match){
+            match.forEach((m) => {
+                content = content.replaceAll(m,`<a class="link" href="/category/${m.trim().slice(1)}">#${m.trim().slice(1)}</a> `);
+                m = m.trim();
+                m = m.slice(1);
+            });
+        }
         
         await this.$refs;
 
